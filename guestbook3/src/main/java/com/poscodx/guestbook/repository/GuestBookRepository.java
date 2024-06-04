@@ -83,7 +83,7 @@ public class GuestBookRepository {
 		return result;
 	}
 
-	public int deleteByNo(Long no, String password) {
+	public int deleteByNoAndPassword(Long no, String password) {
 		int result = 0;
 		
 		try (
