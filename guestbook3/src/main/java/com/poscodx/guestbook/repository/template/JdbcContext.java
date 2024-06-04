@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+//getConnection + 쿼리 세팅
 public class JdbcContext {
 	private DataSource dataSource;
 	

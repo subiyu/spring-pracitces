@@ -19,9 +19,9 @@ public class GuestBookRepositoryWithJdbcTemplate {
 	}
 
 	public List<GuestBookVo> findAll() {
-		return jdbcTemplate.query(
+		return jdbcTemplate.query( 		//select문은 executeQuery -> JdbcTemplate.query()
 				"SELECT no, name, password, contents, date_format(reg_date, '%Y/%m/%d %H:%i:%s') FROM guestbook ORDER BY reg_date desc", 
-				new RowMapper<GuestBookVo>() {
+				new RowMapper<GuestBookVo>() { 	//객체에 매핑
 					@Override
 					public GuestBookVo mapRow(ResultSet rs, int rowNum) throws SQLException {
 						GuestBookVo vo = new GuestBookVo();
@@ -38,7 +38,7 @@ public class GuestBookRepositoryWithJdbcTemplate {
 	}
 	
 	public int insert(GuestBookVo vo) {
-		return jdbcTemplate.update(
+		return jdbcTemplate.update(		//select이외의 DML문은 executeUpdate -> JdbcTemplate.update()
 				"INSERT INTO guestbook(name, password, contents, reg_date) VALUES(?, ?, ?, now())", 
 				new Object[] {vo.getName(), vo.getPassword(), vo.getContents()});
 		
