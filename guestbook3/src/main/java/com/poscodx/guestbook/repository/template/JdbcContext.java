@@ -39,7 +39,7 @@ public class JdbcContext {
 		}, rowMapper);
 	}
 	
-	public int execute(String sql) {
+	public int update(String sql) {
 		return executeUpdateWithStatementStrategy(new StatementStrategy() {			
 			@Override
 			public PreparedStatement makeStatement(Connection connection) throws SQLException {
@@ -49,7 +49,7 @@ public class JdbcContext {
 		});
 	}
 	
-	public int execute(String sql, Object[] parameters) {
+	public int update(String sql, Object[] parameters) {
 		return executeUpdateWithStatementStrategy(new StatementStrategy() {			
 			@Override
 			public PreparedStatement makeStatement(Connection connection) throws SQLException {
