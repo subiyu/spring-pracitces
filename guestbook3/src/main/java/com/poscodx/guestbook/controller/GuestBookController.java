@@ -16,17 +16,14 @@ import com.poscodx.guestbook.vo.GuestBookVo;
 @Controller
 public class GuestBookController {
 	@Autowired
-	private GuestBookRepositoryWithRawJdbc guestBookRepository1;
-	
-	@Autowired
-	private GuestBookRepositoryWithJdbcContext guestBookRepository2;
+	private GuestBookRepositoryWithJdbcContext guestbookRepository2;
 	
 	@Autowired
 	private GuestBookRepositoryWithJdbcTemplate guestbookRepository3;
 	
 	@RequestMapping("/")
 	public String index(Model model) {
-		List<GuestBookVo> list = guestbookRepository3.findAll();
+		List<GuestBookVo> list = guestbookRepository2.findAll();
 		model.addAttribute("list", list);
 		
 		return "index";
@@ -34,7 +31,7 @@ public class GuestBookController {
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public String add(GuestBookVo vo) {
-		guestbookRepository3.insert(vo);
+		guestbookRepository2.insert(vo);
 		
 		return "redirect:/";
 	}
@@ -48,7 +45,7 @@ public class GuestBookController {
 	
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public String delete(GuestBookVo vo) {
-		guestbookRepository3.deleteByNoAndPassword(vo.getNo(), vo.getPassword());
+		guestbookRepository2.deleteByNoAndPassword(vo.getNo(), vo.getPassword());
 		
 		return "redirect:/";
 	}

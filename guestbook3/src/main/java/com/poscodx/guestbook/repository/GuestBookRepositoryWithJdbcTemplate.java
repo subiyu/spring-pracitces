@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.poscodx.guestbook.vo.GuestBookVo;
 
+//실무용
 @Repository
 public class GuestBookRepositoryWithJdbcTemplate {
 	private JdbcTemplate jdbcTemplate;
@@ -33,7 +34,6 @@ public class GuestBookRepositoryWithJdbcTemplate {
 						
 						return vo;
 					}
-			
 		});
 	}
 	
