@@ -38,7 +38,7 @@ pageContext.setAttribute("newline", "\n");
 				<td>${vo.name }</td>
 				<td>${vo.regDate }</td>
 				<td><a
-					href="${pageContext.request.contextPath}/delete?no=${vo.no}">삭제</a></td>
+					href="${pageContext.request.contextPath}/delete/${vo.no}">삭제</a></td>
 			</tr>
 			<tr>
 				<td colspan=4>${fn:replace(fn:replace(fn:replace(vo.contents, ">", "&gt;"), "<", "&lt;"), newline, "<br>") }

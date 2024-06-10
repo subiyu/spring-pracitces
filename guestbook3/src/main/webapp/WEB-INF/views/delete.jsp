@@ -9,8 +9,7 @@
 <title>방명록</title>
 </head>
 <body>
-	<form method="post" action="${pageContext.request.contextPath}/delete">
-		<input type="hidden" name="no" value="${no }">
+	<form method="post" action="${pageContext.request.contextPath}/delete/${no }">
 		<table>
 			<tr>
 				<td>비밀번호</td>

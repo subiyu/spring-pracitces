@@ -10,8 +10,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.RowMapper;
-
-import com.poscodx.guestbook.vo.GuestBookVo;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 
 //getConnection + 쿼리 세팅
 public class JdbcContext {
@@ -20,14 +19,6 @@ public class JdbcContext {
 	public JdbcContext(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
-	
-//	public <T> T executeQueryForObject(String sql) {
-//		return null;
-//	}
-//	
-//	public <T> List<T> executeQueryForObject(String sql, Object[] parameter) {
-//		return null;
-//	}
 
 	public <T> List<T> query(String sql, RowMapper<T> rowMapper) {
 		return executeQueryWithStatementStrategy(new StatementStrategy() {			
@@ -69,27 +60,26 @@ public class JdbcContext {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = dataSource.getConnection();
+			conn = DataSourceUtils.getConnection(dataSource);
 			pstmt = statementStrategy.makeStatement(conn);
 			result = pstmt.executeUpdate();
 		} catch(SQLException e) {
-			System.out.println("error: " + e);
+			throw new RuntimeException(e);
 		} finally {
 			try {
 				if(pstmt != null) {
 					pstmt.close();
 				}
 				if(conn != null) {
-					conn.close();
+					DataSourceUtils.releaseConnection(conn, dataSource);
 				}
-			} catch(SQLException e) {
-				e.printStackTrace();
+			} catch(SQLException ignored) {
 			}
 		}
 		
 		return result;
 	}
-
+	
 	public <E> List<E> executeQueryWithStatementStrategy(StatementStrategy statementStrategy, RowMapper<E> rowMapper) {
 		List<E> result = new ArrayList<>();
 		
@@ -98,8 +88,8 @@ public class JdbcContext {
 		ResultSet rs = null;
 		
 		try {
-			conn = dataSource.getConnection();
-		
+			conn = DataSourceUtils.getConnection(dataSource);
+			
 			pstmt = statementStrategy.makeStatement(conn);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -107,7 +97,7 @@ public class JdbcContext {
 				result.add(e);
 			}
 		} catch(SQLException e) {
-			System.out.println("error: " + e);
+			throw new RuntimeException(e);
 		} finally {
 			try {
 				if(pstmt != null) {
@@ -116,11 +106,11 @@ public class JdbcContext {
 				if(conn != null) {
 					conn.close();
 				}
-			} catch(SQLException e) {
-				e.printStackTrace();
+			} catch(SQLException ignored) {
 			}
 		}
 		
 		return result;
 	}
+
 }
